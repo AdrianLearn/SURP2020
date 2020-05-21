@@ -1,22 +1,26 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+let time = document.getElementById("time");
 const ellipseSize = 2;
+let timer = time.innerHTML;
+let frames = 0;
 
 /*
 * required by p5.js, called at the beginning of the webpage load
 */
 function setup() {
+    frameRate(60);
     noStroke();
     ctx.fillStyle = 'grey';
     ctx.fillRect(0,0,canvas.width, canvas.height);
     targets.length = 5;
-    let gameScore = 0;
+    time.innerHTML = 0;
     stack = new Stack;
     stack.populate();
     targets = [
-      new Target(random(780),random(580),stack.pop()),
-      new Target(random(780),random(580),stack.pop()),
-      new Target(random(780),random(580),stack.pop()),
+      new Target(random(760),random(560),stack.pop()),
+      new Target(random(760),random(560),stack.pop()),
+      new Target(random(760),random(560),stack.pop()),
     ];
     //requestAnimationFrame(drawScene);
 }
@@ -79,10 +83,18 @@ let targets = [
 let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
 document.body.addEventListener("mousemove", updateMouse);
 
+function increaseTime(){
+  frames++;
+  if(frames%60===0){
+  timer++;
+  time.innerHTML = timer;
+  time = document.getElementById("time");
+}
+}
 function draw(){
+  //console.log(getFrameRate());
   //clearBackground();
-
+  increaseTime();
   targets.forEach(target => target.show());
-  requestAnimationFrame(draw);
-
+  //requestAnimationFrame(draw);
 }
