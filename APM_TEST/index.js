@@ -5,9 +5,9 @@ const ellipseSize = 2;
 let timer = time.innerHTML;
 let frames = 0;
 let currTarget = 50;
-/*
-* required by p5.js, called at the beginning of the webpage load
-*/
+
+
+//Function called by p5 in the beginning to set the canvas
 function setup() {
     frameRate(1);
     noStroke();
@@ -25,11 +25,10 @@ function setup() {
       new Target(random(780),random(580),stack.pop()),
     ];
     targets.forEach(target => target.show());
-    //requestAnimationFrame(drawScene);
 }
 
 function random(range){
-  return Math.floor(Math.random() * range-20) + 20;
+  return Math.floor(Math.random() * range-30) + 30;
 }
 
 function updateMouse(event) {
@@ -38,6 +37,51 @@ function updateMouse(event) {
   mouse.y = event.clientY - top;
 }
 
+function mouseBounds(){
+  return mouse.x <= targets[0].x + 20 && mouse.x >= targets[0].x - 20 && mouse.y <= targets[0].y +20 && mouse.y >= targets[0].y-20;
+}
+canvas.addEventListener("click", () => {
+  console.log('click');
+  if(targets[0].index == currTarget && mouseBounds()){
+    if(currTarget <= 5){
+      targets.shift();
+      clearBackground();
+      targets.forEach(target => target.show());
+      currTarget--;
+    }else{
+    targets.shift();
+    let temp = new Target(random(780), random(580),stack.pop());
+    targets.push(temp);
+    clearBackground();
+    temp.show();
+    targets.forEach(target => target.show());
+    currTarget--;
+  }
+  }
+});
+
+function clearBackground() {
+  ctx.fillStyle = 'grey';
+  ctx.fillRect(0,0,canvas.width, canvas.height);
+}
+let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
+document.body.addEventListener("mousemove", updateMouse);
+
+function increaseTime(){
+  timer++;
+  time.innerHTML = timer;
+  time = document.getElementById("time");
+}
+
+function draw(){
+  increaseTime();
+  if(currTarget == 0){
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText(`Done`, (canvas.width/4), canvas.height / 2);
+  }
+}
+// Subclasses for stack and target
 class Stack{
   constructor(){
     this.data = [];
@@ -79,6 +123,7 @@ class Target{
     ctx.stroke();
   }
 }
+//I dont know why I need this but it doesn't work without it
 targets = [
   new Target(random(780),random(580)),
   new Target(random(780),random(580)),
@@ -86,40 +131,3 @@ targets = [
   new Target(random(780),random(580)),
   new Target(random(780),random(580)),
 ];
-function mouseBounds(){
-  return mouse.x <= targets[0].x + 20 && mouse.x >= targets[0].x - 20 && mouse.y <= targets[0].y +20 && mouse.y >= targets[0].y-20;
-}
-canvas.addEventListener("click", () => {
-  console.log('click');
-  if(targets[0].index == currTarget && mouseBounds()){
-    targets.shift();
-    let temp = new Target(random(780), random(580),stack.pop());
-    targets.push(temp);
-    clearBackground();
-    temp.show();
-    targets.forEach(target => target.show());
-    currTarget--;
-  }
-});
-
-function clearBackground() {
-  ctx.fillStyle = 'grey';
-  ctx.fillRect(0,0,canvas.width, canvas.height);
-}
-let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
-document.body.addEventListener("mousemove", updateMouse);
-
-function increaseTime(){
-  timer++;
-  time.innerHTML = timer;
-  time = document.getElementById("time");
-}
-
-function draw(){
-  increaseTime();
-  if(stack.isEmpty()){
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "white";
-    ctx.fillText(`Done`, (canvas.width/4), canvas.height / 2);
-  }
-}
