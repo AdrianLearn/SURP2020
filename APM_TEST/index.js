@@ -4,7 +4,6 @@ let time = document.getElementById("time");
 const ellipseSize = 2;
 let timer = time.innerHTML;
 let frames = 0;
-let currIndex = 0;
 let currTarget = 50;
 /*
 * required by p5.js, called at the beginning of the webpage load
@@ -60,6 +59,9 @@ class Stack{
      this.top = this.top -1;
      return this.data.pop();
    }
+   isEmpty(){
+     return this.data.length == 0;
+   }
 }
 class Target{
   constructor(x,y,index){
@@ -69,19 +71,12 @@ class Target{
     noStroke();
     ctx.fillStyle = 'red';
     ctx.beginPath();
-    ctx.arc(this.x,this.y, 24, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = 'black';
-    ctx.font = "10px Arial";
-    ctx.strokeText(this.index,this.x-5,this.y+4);
-    ctx.stroke();
-  }
-  hide(){
-    noStroke();
-    ctx.fillStyle = 'grey';
-    ctx.beginPath();
     ctx.arc(this.x,this.y, 25, 0, Math.PI * 2);
     ctx.fill();
+    ctx.fillStyle = 'black';
+    ctx.font = "11px Avenir";
+    ctx.strokeText(this.index,this.x-5,this.y+4);
+    ctx.stroke();
   }
 }
 targets = [
@@ -92,34 +87,39 @@ targets = [
   new Target(random(780),random(580)),
 ];
 function mouseBounds(){
-  return mouse.x <= targets[currIndex].x + 20 && mouse.x >= targets[currIndex].x - 20 && mouse.y <= targets[currIndex].y +20 && mouse.y >= targets[currIndex].y-20;
+  return mouse.x <= targets[0].x + 20 && mouse.x >= targets[0].x - 20 && mouse.y <= targets[0].y +20 && mouse.y >= targets[0].y-20;
 }
 canvas.addEventListener("click", () => {
   console.log('click');
-  if(targets[currIndex].index == currTarget && mouseBounds()){
-    console.log(targets[currIndex].index);
-    console.log(currTarget);
+  if(targets[0].index == currTarget && mouseBounds()){
+    targets.shift();
     let temp = new Target(random(780), random(580),stack.pop());
     targets.push(temp);
+    clearBackground();
     temp.show();
-    targets[currIndex].hide();
+    targets.forEach(target => target.show());
     currTarget--;
-    currIndex++;
   }
 });
 
+function clearBackground() {
+  ctx.fillStyle = 'grey';
+  ctx.fillRect(0,0,canvas.width, canvas.height);
+}
 let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
 document.body.addEventListener("mousemove", updateMouse);
 
 function increaseTime(){
-  frames++;
-  //if(frames%60===0){
-    timer++;
-  //}
+  timer++;
   time.innerHTML = timer;
   time = document.getElementById("time");
 }
 
 function draw(){
   increaseTime();
+  if(stack.isEmpty()){
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText(`Done`, (canvas.width/4), canvas.height / 2);
+  }
 }
