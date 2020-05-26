@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 let time = document.getElementById("time");
 document.body.addEventListener("mousemove", updateMouse);
 let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
-let currTarget = 50;  // tracks what target you are currently clicking
+let currTarget = 10;  // tracks what target you are currently clicking
 let finished = false; // tracks if you have finished the target array
 let first = true; // tracks if this is the first target you have clicked
 let timef = null; //tracks the number of milliseconds leading up to the start
@@ -17,22 +17,31 @@ function setup() {
     targets.length = 5;
     time.innerHTML = 0;
     stack = new Stack;
-    stack.populate();
+    stack.populate(currTarget);// populates the stack at the length of the largets target in the board
     //something wrong with this
     targets = [
-      new Target(random(canvas.width-30),random(canvas.height-30),stack.pop()),
-      new Target(random(canvas.width-30),random(canvas.height-30),stack.pop()),
-      new Target(random(canvas.width-30),random(canvas.height-30),stack.pop()),
-      new Target(random(canvas.width-30),random(canvas.height-30),stack.pop()),
-      new Target(random(canvas.width-30),random(canvas.height-30),stack.pop()),
+      new Target(random(canvas.width),random(canvas.height),stack.pop()),
+      new Target(random(canvas.width),random(canvas.height),stack.pop()),
+      new Target(random(canvas.width),random(canvas.height),stack.pop()),
+      new Target(random(canvas.width),random(canvas.height),stack.pop()),
+      new Target(random(canvas.width),random(canvas.height),stack.pop()),
     ];
+    targets.forEach(target => target.show());
     moveTargets();
 }
 
 function random(range){
-  return Math.floor(Math.random() * (range-30)) + 30;
+  return Math.floor(Math.random() * (range - 30) + 30);
+
 }
 
+function restart(){
+  targets = [];
+  finished = false;
+  currTarget = 50;
+  first = true;
+  setup();
+}
 /*
 * function to check and move targets if they overlap
 */
@@ -141,8 +150,8 @@ class Stack{
     this.data = [];
     this.top = 1;
   }
-  populate(){
-    for(let i = 1; i < 51; i++){
+  populate(num){
+    for(let i = 1; i < num+1; i++){
       this.data.push(i);
     }
   }
@@ -176,12 +185,15 @@ class Target{
     ctx.strokeText(this.index,this.x-5,this.y+4);
     ctx.stroke();
   }
+  show(){
+    console.log(this.index, this.x,this.y);
+  }
 }
 //I dont know why I need this but it doesn't work without it
 targets = [
-  new Target(random(780),random(580)),
-  new Target(random(780),random(580)),
-  new Target(random(780),random(580)),
-  new Target(random(780),random(580)),
-  new Target(random(780),random(580)),
+  new Target(random(canvas.width),random(canvas.height)),
+  new Target(random(canvas.width),random(canvas.height)),
+  new Target(random(canvas.width),random(canvas.height)),
+  new Target(random(canvas.width),random(canvas.height)),
+  new Target(random(canvas.width),random(canvas.height)),
 ];
