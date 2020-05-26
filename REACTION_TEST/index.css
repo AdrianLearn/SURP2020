@@ -1,0 +1,14 @@
+
+h1 {
+  font-size: 50px;
+  font-family: "Avenir light";
+}
+
+body {
+  margin-top: 0;
+  padding-left: 20px;
+  font-size: 20px;
+  font-family: "Comic Sans";
+  background-color: black;
+  color: white;
+}
