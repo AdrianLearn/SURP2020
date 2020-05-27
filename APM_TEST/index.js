@@ -1,5 +1,6 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+const circleR = 25; //radius of the targets
 let time = document.getElementById("time");
 document.body.addEventListener("mousemove", updateMouse);
 let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
@@ -88,7 +89,7 @@ function clearBackground() {
 * Function to check if the mouse is within the area of the target
 */
 function mouseBounds(){
-  return mouse.x <= targets[0].x + 20 && mouse.x >= targets[0].x - 20 && mouse.y <= targets[0].y +20 && mouse.y >= targets[0].y-20;
+  return mouse.x <= targets[0].x + circleR && mouse.x >= targets[0].x - circleR && mouse.y <= targets[0].y +circleR && mouse.y >= targets[0].y-circleR;
 }
 
 canvas.addEventListener("mousedown", () => {
@@ -182,7 +183,7 @@ class Target{
     noStroke();
     ctx.fillStyle = 'white';
     ctx.beginPath();
-    ctx.arc(this.x,this.y, 25, 0, Math.PI * 2);
+    ctx.arc(this.x,this.y, circleR, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = 'black';
     ctx.font = "12px Avenir";
