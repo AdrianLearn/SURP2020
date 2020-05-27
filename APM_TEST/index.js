@@ -91,24 +91,24 @@ function mouseBounds(){
   return mouse.x <= targets[0].x + 20 && mouse.x >= targets[0].x - 20 && mouse.y <= targets[0].y +20 && mouse.y >= targets[0].y-20;
 }
 
-canvas.addEventListener("click", () => {
+canvas.addEventListener("mousedown", () => {
   if(targets[0].index == currTarget && mouseBounds()){
+    console.log('click');
     if(currTarget <= 5){
       targets.shift();
       clearBackground();
       targets.forEach(target => target.draw());
     }else{
       targets.shift();
-      let temp = new Target(random(780), random(580),stack.pop());
-      targets.push(temp);
+      targets.push(new Target(random(780), random(580),stack.pop()));
       clearBackground();
-      temp.draw();
       targets.forEach(target => target.draw());
       first = false;
     }
     currTarget--;
   }
 });
+
 
 /*
 * function to increment the timer, chopping off everything past the hundredth of a second, and update the span
