@@ -7,10 +7,17 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
+  <div style = "text-align:center">
   <h1>APM Test</h1>
-  <p>Time: <span id="time"></span><span id="mouse"></span> Seconds
-  <p><button onclick="restart()">Restart</button>
+  <p>Time: <span id="time"></span> Seconds<span style="margin-left:2em;color:red" id = "indicator">Trial</span>
+  <p><input onclick="restart()" type = "button" value = "start"id = "start"></input>
   <h3><canvas width="800" height="600"></canvas></h3>
+  <div class = "instructions" style = "text-align:left">
+    <p>In this test you need only click on the numbers in decreasing order<br>
+    <br>In your trial run, you will start at 10 and count downwards.<br>
+    <br>After finishing, click the Start button to begin the test starting at 50
+  </div>
+</div>
   <div id="sketch"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
   <script src="index.js"></script>

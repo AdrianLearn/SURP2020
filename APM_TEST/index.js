@@ -36,6 +36,10 @@ function random(range){
 }
 
 function restart(){
+  let button = document.getElementById("start");
+  button.value = 'restart';
+  let indicator = document.getElementById("indicator");
+  indicator.innerHTML = 'Real Test';
   targets = [];
   finished = false;
   currTarget = 50;
@@ -131,7 +135,7 @@ function draw(){
     finished = true;
     ctx.font = "30px Avenir";
     ctx.fillStyle = "white";
-    ctx.fillText(`Finished`, (canvas.width/3), canvas.height / 2);
+    ctx.fillText(`Finished`, ((canvas.width/2)-35), canvas.height / 2);//35 is to shift the text over
   }
 }
 /*
