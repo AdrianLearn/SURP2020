@@ -9,12 +9,13 @@ body {
   margin-top: 0;
   padding-left: 40px;
   font-size: 20px;
-  font-family: "Comic Sans";
+  font-family: "Avenir";
   background-color: black;
   color: white;
 
 }
 .instructions{
-  margin-top: -30%;
-  margin-left: -20px;
+  font-family: "Avenir";
+  margin-top: -42%;
+  margin-left: -30px;
 }
