@@ -6,21 +6,36 @@ let clickedTime;
 let createdTime;
 let reactionTime;
 let currBox;
+let times = [];
+let averageTime;
 
 function random(range){
-  return Math.floor(Math.random()*range);
+  let rand = Math.floor(Math.random()*range);
+  if(rand < 20){
+    rand+=20;
+  }
+  return rand;
+}
+
+function average(times){
+  let total = 0;
+  for(let i = 0; i < times.length; i++){
+    total += times[i];
+  }
+  total = total/times.length;
+  return total;
 }
 
 function make(){
+  currBox = null;
   let time = Math.random()*3000;
   ctx.fillStyle='white';
   ctx.fillRect(0,0,canvas.width,canvas.height);
   setTimeout(function() {
     createdTime=Date.now();
     currBox = new Box (random(canvas.width), random(canvas.height), random(200), random(200), getRandomColor());
-    currBox.show();
     currBox.draw();
-
+    averageTime = average(times);
   }, time);
 }
 
@@ -28,7 +43,10 @@ canvas.addEventListener("click", () => {
   if(currBox.withinBounds()){
     clickedTime=Date.now();
     reactionTime=(clickedTime-createdTime)/1000;
+    reactionTime = reactionTime.toFixed(3);
+    times.push(reactionTime);
     document.getElementById("reactionTime").innerHTML=reactionTime;
+    document.getElementById("averageTime").innerHTML=averageTime;
     make();
   }
 });
@@ -61,9 +79,6 @@ class Box{
     console.log('drawn');
   }
   withinBounds(){
-    return mouse.x > this.x && mouse.x < this.x + canvas.width && mouse.y > this.y && mouse.y < this.y + canvas.height;
-  }
-  show(){
-    console.log('box at ' + this.x, this.y, this.width, this.height + 'with color ' + this.color);
+    return mouse.x > this.x && mouse.x < this.x + this.width && mouse.y > this.y && mouse.y < this.y +  this.height;
   }
 }
