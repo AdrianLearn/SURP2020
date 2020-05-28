@@ -12,3 +12,8 @@ body {
   background-color: black;
   color: white;
 }
+.instructions{
+  font-family: "Avenir";
+  margin-top: -42%;
+
+}
