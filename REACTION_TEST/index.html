@@ -9,15 +9,13 @@
 <body>
   <div style = "text-align:center">
   <h1>Reaction Time Test</h1>
-    <p>Reaction Time: <span id="reactionTime"></span><span style="margin-left:2em">Number of squares left: </span><span id = "numSquares"></span><br>
-    <p>Average Reaction Time: <span id = "averageTime"></span><br>
-    <p><input onclick="startButton(), style.display = 'none'" type = "button" value = "start"id = "start"></input>
-  <h3><canvas width="800" height="600"></canvas></h3>
-  <div class = "instructions" style = "text-align:left;">
     <p><b>In this test, you must click on the colored squares as fast as you can.</b><br>
     <br>When you click start, squares will appear randomly. <br>
     <br>When 10 squares have been clicked, the test will be finished.
-  </div>
+  <h3><canvas width="800" height="600"></canvas></h3>
+    <p><input onclick="startButton(), style.display = 'none'" type = "button" value = "start"id = "start"></input>
+  <p>Reaction Time: <span id="reactionTime"></span><span style="margin-left:2em">Number of squares left: </span><span id = "numSquares"></span><br>
+  <p>Average Reaction Time: <span id = "averageTime"></span><br>
   <div id="sketch"></div>
   <script src="index.js"></script>
 </body>

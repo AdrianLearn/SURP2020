@@ -100,7 +100,6 @@ class Box{
     ctx.beginPath();
     this.checkBounds();
     ctx.fillRect(this.x,this.y,this.width,this.height);
-    console.log(this.width, this.height);
   }
   checkBounds(){ // function to ensure the boxes don't float off the edge of the canvas and are visible
     if(this.x > canvas.width-50){

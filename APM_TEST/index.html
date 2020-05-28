@@ -9,14 +9,15 @@
 <body>
   <div style = "text-align:center">
   <h1>APM Test</h1>
+  <p><b>In this test, you must click on the numbers in the circles in decreasing numerical order</b><br>
+  <br>First, you will do a trial run.  Start at 10 and click downwards as fast as you can.<br>
+  <br>After you finish the trial run, click the Start button to begin the test which starts at 50.
+
+  <h3><canvas width="800" height="600"></canvas></h3>
   <p>Time: <span id="time"></span> Seconds<span style="margin-left:2em;color:red" id = "indicator">Trial</span>
   <p><input onclick="restart()" type = "button" value = "start"id = "start"></input>
-  <h3><canvas width="800" height="600"></canvas></h3>
-  <div class = "instructions" style = "text-align:left;">
-    <p><b>In this test, you must click on the numbers in the circles in decreasing numerical order</b><br>
-    <br>First, you will do a trial run.  Start at 10 and click downwards as fast as you can.<br>
-    <br>After you finish the trial run, click the Start button to begin the test which starts at 50.
-  </div>
+
+
 </div>
   <div id="sketch"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>

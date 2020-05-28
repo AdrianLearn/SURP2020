@@ -33,7 +33,6 @@ function setup() {
 
 function random(range){
   return Math.floor(Math.random() * (range - 30) + 30);
-
 }
 
 function restart(){

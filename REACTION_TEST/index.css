@@ -1,5 +1,6 @@
 
 h1 {
+  margin-top: 0;
   font-size: 50px;
   font-family: "Avenir light";
 }
@@ -11,9 +12,4 @@ body {
   font-family: "Comic Sans";
   background-color: black;
   color: white;
-}
-.instructions{
-  font-family: "Avenir";
-  margin-top: -42%;
-
 }
