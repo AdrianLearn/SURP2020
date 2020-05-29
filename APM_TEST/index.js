@@ -4,11 +4,11 @@ const circleR = 25; //radius of the targets
 let time = document.getElementById("time");
 document.body.addEventListener("mousemove", updateMouse);
 let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
+let targets = []; // Array to track the targets
 let currTarget = 10;  // tracks what target you are currently clicking
 let finished = false; // tracks if you have finished the target array
 let first = true; // tracks if this is the first target you have clicked
 let timef = null; //tracks the number of milliseconds leading up to the start
-
 //Function called by p5.js in the beginning to set the canvas
 function setup() {
     frameRate(100);
@@ -19,20 +19,21 @@ function setup() {
     time.innerHTML = 0;
     stack = new Stack;
     stack.populate(currTarget);// populates the stack at the length of the largets target in the board
-    //something wrong with this
     targets = [
-      new Target(random(canvas.width),random(canvas.height),stack.pop()),
-      new Target(random(canvas.width),random(canvas.height),stack.pop()),
-      new Target(random(canvas.width),random(canvas.height),stack.pop()),
-      new Target(random(canvas.width),random(canvas.height),stack.pop()),
-      new Target(random(canvas.width),random(canvas.height),stack.pop()),
+      new Target(randomInt(circleR,canvas.width),randomInt(circleR,canvas.height),stack.pop()),
+      new Target(randomInt(circleR,canvas.width),randomInt(circleR,canvas.height),stack.pop()),
+      new Target(randomInt(circleR,canvas.width),randomInt(circleR,canvas.height),stack.pop()),
+      new Target(randomInt(circleR,canvas.width),randomInt(circleR,canvas.height),stack.pop()),
+      new Target(randomInt(circleR,canvas.width),randomInt(circleR,canvas.height),stack.pop()),
     ];
-    targets.forEach(target => target.show());
+    targets.forEach(target => target.sketch());
     moveTargets();
 }
 
-function random(range){
-  return Math.floor(Math.random() * (range - 30) + 30);
+function randomInt(min, max){
+  min = Math.ceil(min);
+  max = Math.floor(max)-circleR; // adjusting for the size of the target
+  return ans = Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function restart(){
@@ -71,9 +72,10 @@ function pushOff(c1, c2) {
     c1.y -= dy * distToMove / 2;
     c2.x += dx * distToMove / 2;
     c2.y += dy * distToMove / 2;
+    clearBackground();
+    targets.forEach(target => target.sketch());
   }
-  clearBackground();
-  targets.forEach(target => target.draw());
+
 }
 
 /*
@@ -93,16 +95,15 @@ function mouseBounds(){
 
 canvas.addEventListener("mousedown", () => {
   if(targets[0].index == currTarget && mouseBounds()){
-    console.log('click');
     if(currTarget <= 5){
       targets.shift();
       clearBackground();
-      targets.forEach(target => target.draw());
+      targets.forEach(target => target.sketch());
     }else{
       targets.shift();
-      targets.push(new Target(random(780), random(580),stack.pop()));
+      targets.push(new Target(randomInt(circleR,canvas.width),randomInt(circleR,canvas.height),stack.pop()));
       clearBackground();
-      targets.forEach(target => target.draw());
+      targets.forEach(target => target.sketch());
       first = false;
     }
     currTarget--;
@@ -147,7 +148,6 @@ function updateMouse(event) {
   mouse.y = event.clientY - top;
 }
 
-
 // Subclasses for stack and target
 class Stack{
   constructor(){
@@ -170,15 +170,13 @@ class Stack{
      this.top = this.top -1;
      return this.data.pop();
    }
-   isEmpty(){
-     return this.data.length == 0;
-   }
 }
+
 class Target{
   constructor(x,y,index){
     Object.assign(this, {x,y,index});
   }
-  draw(){
+  sketch(){
     noStroke();
     ctx.fillStyle = 'white';
     ctx.beginPath();
@@ -189,15 +187,4 @@ class Target{
     ctx.strokeText(this.index,this.x-5,this.y+4);
     ctx.stroke();
   }
-  show(){
-    console.log(this.index, this.x,this.y);
-  }
 }
-//I dont know why I need this but it doesn't work without it
-targets = [
-  new Target(random(canvas.width),random(canvas.height)),
-  new Target(random(canvas.width),random(canvas.height)),
-  new Target(random(canvas.width),random(canvas.height)),
-  new Target(random(canvas.width),random(canvas.height)),
-  new Target(random(canvas.width),random(canvas.height)),
-];
