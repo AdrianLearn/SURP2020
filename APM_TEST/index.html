@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>APM test</title>
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="APM.css">
 </head>
 <body>
   <div style = "text-align:center">
@@ -14,13 +14,12 @@
   <br>After you finish the trial run, click the Start button to begin the test which starts at 50.
 
   <h3><canvas width="800" height="600"></canvas></h3>
-  <p>Time: <span id="time"></span> Seconds<span style="margin-left:2em;color:red" id = "indicator">Trial</span>
-  <p><input onclick="restart()" type = "button" value = "start"id = "start"></input>
-
+  <p>Time: <span id="time"></span> Seconds<span style="margin-left:2em;color:red" id = "indicator">Trial</span><br></p>
+  <p><input onclick="restart(), style.display = 'none'" type = "button" value ="start" id = "start"></input></p>
 
 </div>
   <div id="sketch"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
-  <script src="index.js"></script>
+  <script src="APM.js"></script>
 </body>
 </html>
