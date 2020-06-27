@@ -9,7 +9,10 @@ let currBox;
 let times = [];
 let averageTime;
 let start = false;
-
+let subjectID = prompt("Please enter your subject ID");
+while(!subjectID || subjectID.length === 0){
+  subjectID = prompt("Please enter your subject ID");
+}
 function random(range){
   let rand = Math.floor(Math.random()*range);
   if(rand < 40){
@@ -33,11 +36,13 @@ function average(times){
 }
 
 function make(){
-  if(boxes == 0){
+  if(boxes === 0){
     clearBoard();
     ctx.font = "30px Avenir";
     ctx.fillStyle = "black";
     ctx.fillText(`Finished`, ((canvas.width/2)-50), canvas.height / 2);//50 is to shift the text over
+    let URLquery = '?subjectID=' + subjectID + '&elapsedTime=' + averageTime;
+    window.location = 'http://adrian.lmu.build/REACTION_TEST/REACTION_Link.php' + URLquery;
   }else{
     currBox = null;
     let time = Math.random()*3000;
