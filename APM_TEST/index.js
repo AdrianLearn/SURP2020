@@ -3,13 +3,16 @@ const ctx = canvas.getContext("2d");
 const circleR = 25; //radius of the targets
 let time = document.getElementById("time");
 document.body.addEventListener("mousemove", updateMouse);
+let subjectID = prompt("Please enter your subject ID");
 let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
 let targets = []; // Array to track the targets
 let currTarget = 10;  // tracks what target you are currently clicking
 let finished = false; // tracks if you have finished the target array
 let first = true; // tracks if this is the first target you have clicked
+let test = false; // tracks if this is the trial or real
 let timef = null; //tracks the number of milliseconds leading up to the start
 //Function called by p5.js in the beginning to set the canvas
+
 function setup() {
     frameRate(100);
     noStroke();
@@ -33,19 +36,20 @@ function setup() {
 function randomInt(min, max){
   min = Math.ceil(min);
   max = Math.floor(max)-circleR; // adjusting for the size of the target
-  return ans = Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function restart(){
-  let button = document.getElementById("start");
-  button.value = 'restart';
-  let indicator = document.getElementById("indicator");
-  indicator.innerHTML = 'Real Test';
-  targets = [];
-  finished = false;
-  currTarget = 50;
-  first = true;
-  setup();
+  if(!test){
+    document.getElementById("indicator").innerHTML = 'Real Test';
+    indicator.innerHTML = 'Real Test';
+    targets = [];
+    finished = false;
+    currTarget = 50;
+    first = true;
+    test = true;
+    setup();
+  }
 }
 /*
 * function to check and move targets if they overlap
@@ -58,6 +62,9 @@ function moveTargets(){
   }
 }
 
+function withinCircleR(targ, targ1){
+  let d = 25 - Math.pow((targ.x-targ1.x),2) + Math.pow((targ.y-targ1.y),2);
+}
 /*
 * Function to push two targets off each other if they happen to spawn on one another
 */
@@ -130,15 +137,28 @@ function draw(){
   if(first){
     timef = millis()/1000;
   }
+  if(!subjectID || subjectID.length === 0){
+    subjectID = prompt("Please enter your subject ID"); //Ensuring existance of subject ID
+  }
   increaseTime();
   moveTargets();
-  if(currTarget == 0){
-    finished = true;
+  if(currTarget === 0){
+    if(test){
+      noLoop();
+      ctx.font = "30px Avenir";
+      ctx.fillStyle = "white";
+      ctx.fillText(`Finished`, ((canvas.width/2)-35), canvas.height / 2);//35 is to shift the text over
+      let URLquery = '?subjectID=' + subjectID + '&elapsedTime=' + (millis()/1000-timef);
+      window.location = 'http://adrian.lmu.build/APM_TEST/APM_Link.php' + URLquery;
+    }else{
     ctx.font = "30px Avenir";
     ctx.fillStyle = "white";
-    ctx.fillText(`Finished`, ((canvas.width/2)-35), canvas.height / 2);//35 is to shift the text over
+    ctx.fillText(`Finished Trial`, ((canvas.width/2)-55), canvas.height / 2);//35 is to shift the text over
+    }
+  finished = true;
   }
 }
+
 /*
 * Function to track mouse movement
 */
